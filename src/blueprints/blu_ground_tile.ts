@@ -1,3 +1,4 @@
+import {collide, RayTarget} from "../components/com_collide.js";
 import {render_vox} from "../components/com_render_vox.js";
 import {Game} from "../game.js";
 import {from_euler} from "../math/quat.js";
@@ -26,11 +27,7 @@ export function get_tile_blueprint(
     return {
         Rotation: from_euler([], 0, ~~(Math.random() * 4) * 90, 0),
         Translation: [0, 0, 0],
-        Using: [
-            // collide(false, [8, 1, 8], is_walkable ? RayTarget.Navigable : RayTarget.None),
-            // cull(Get.Collide),
-            // navigable(x, y),
-        ],
+        Using: [collide(false, [8, 1, 8], is_walkable ? RayTarget.None : RayTarget.Selectable)],
         Children: [tile],
     };
 }

@@ -31,6 +31,7 @@ import {sys_animate} from "./systems/sys_animate.js";
 import {sys_audio} from "./systems/sys_audio.js";
 import {sys_camera} from "./systems/sys_camera.js";
 import {sys_collide} from "./systems/sys_collide.js";
+import {sys_control_placement} from "./systems/sys_control_placement.js";
 import {sys_control_player} from "./systems/sys_control_player.js";
 import {sys_debug} from "./systems/sys_debug.js";
 import {sys_framerate} from "./systems/sys_framerate.js";
@@ -164,6 +165,7 @@ export class Game implements ComponentData, GameState {
         // Player input.
         sys_select(this, delta);
         sys_control_player(this, delta);
+        sys_control_placement(this, delta);
 
         // Animation and movement.
         sys_mimic(this, delta);
