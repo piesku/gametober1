@@ -10,6 +10,7 @@ import {Named} from "./com_named";
 import {PlayerControl} from "./com_player_control";
 import {Render} from "./com_render";
 import {RigidBody} from "./com_rigid_body";
+import {Select} from "./com_select";
 import {Shake} from "./com_shake";
 import {Transform} from "./com_transform";
 import {Trigger} from "./com_trigger";
@@ -30,6 +31,7 @@ export const enum Get {
     Mimic,
     Lifespan,
     Shake,
+    Select,
 }
 
 export interface ComponentData {
@@ -48,4 +50,5 @@ export interface ComponentData {
     [Get.Mimic]: Array<Mimic>;
     [Get.Lifespan]: Array<Lifespan>;
     [Get.Shake]: Array<Shake>;
+    [Get.Select]: Array<Select>;
 }

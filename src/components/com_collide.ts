@@ -22,9 +22,14 @@ export interface Collide {
     Half: [number, number, number];
     /** Collisions detected with this collider during this tick. */
     Collisions: Array<Collision>;
+    Flags: RayTarget;
 }
 
-export function collide(Dynamic: boolean = true, Size: [number, number, number] = [1, 1, 1]) {
+export function collide(
+    Dynamic: boolean = true,
+    Size: [number, number, number] = [1, 1, 1],
+    Flags = RayTarget.None
+) {
     return (game: Game, EntityId: Entity) => {
         game.World[EntityId] |= 1 << Get.Collide;
         game[Get.Collide][EntityId] = <Collide>{
@@ -37,6 +42,7 @@ export function collide(Dynamic: boolean = true, Size: [number, number, number] 
             Center: [0, 0, 0],
             Half: [0, 0, 0],
             Collisions: [],
+            Flags,
         };
     };
 }
@@ -46,4 +52,11 @@ export interface Collision {
     Other: Collide;
     /** The direction and magnitude of the hit from this collider's POV. */
     Hit: Vec3;
+}
+
+export const enum RayTarget {
+    /** Ignored by raycasting. */
+    None = 1 << 0,
+    /** Considered by raycasting; doesn't do anything. */
+    Selectable = 1 << 1,
 }

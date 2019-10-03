@@ -13,6 +13,7 @@ import {Named} from "./components/com_named.js";
 import {PlayerControl} from "./components/com_player_control.js";
 import {Render} from "./components/com_render.js";
 import {RigidBody} from "./components/com_rigid_body.js";
+import {Select} from "./components/com_select.js";
 import {Shake} from "./components/com_shake.js";
 import {transform, Transform} from "./components/com_transform.js";
 import {Trigger} from "./components/com_trigger.js";
@@ -40,6 +41,7 @@ import {sys_move} from "./systems/sys_move.js";
 import {sys_performance} from "./systems/sys_performance.js";
 import {sys_physics} from "./systems/sys_physics.js";
 import {sys_render} from "./systems/sys_render.js";
+import {sys_select} from "./systems/sys_select.js";
 import {sys_shake} from "./systems/sys_shake.js";
 import {sys_transform} from "./systems/sys_transform.js";
 import {sys_trigger} from "./systems/sys_trigger.js";
@@ -82,6 +84,7 @@ export class Game implements ComponentData, GameState {
     public [Get.Mimic]: Array<Mimic> = [];
     public [Get.Lifespan]: Array<Lifespan> = [];
     public [Get.Shake]: Array<Shake> = [];
+    public [Get.Select]: Array<Select> = [];
 
     public Canvas: HTMLCanvasElement;
     public GL: WebGL2RenderingContext;
@@ -159,6 +162,7 @@ export class Game implements ComponentData, GameState {
         sys_lifespan(this, delta);
 
         // Player input.
+        sys_select(this, delta);
         sys_control_player(this, delta);
 
         // Animation and movement.
@@ -212,8 +216,8 @@ export class Game implements ComponentData, GameState {
 
             // Scale down mouse input (collected every frame) to match the step.
             let fixed_updates_count = accumulator / step;
-            this.InputState.mouse_x /= fixed_updates_count;
-            this.InputState.mouse_y /= fixed_updates_count;
+            this.InputEvent.mouse_x /= fixed_updates_count;
+            this.InputEvent.mouse_y /= fixed_updates_count;
 
             while (accumulator > step) {
                 accumulator -= step;
@@ -222,8 +226,6 @@ export class Game implements ComponentData, GameState {
             this.FrameUpdate(delta);
 
             last = now;
-            this.InputState.mouse_x = 0;
-            this.InputState.mouse_y = 0;
             this.RAF = requestAnimationFrame(tick);
         };
 
