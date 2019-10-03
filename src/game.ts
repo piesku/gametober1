@@ -100,6 +100,7 @@ export class Game implements ComponentData, GameState {
     public Cameras: Array<Camera> = [];
     public Lights: Array<Light> = [];
     public Palette: Array<number> = main_palette;
+    public Grid: Array<Array<number>> = [];
     private RAF: number = 0;
 
     constructor() {
