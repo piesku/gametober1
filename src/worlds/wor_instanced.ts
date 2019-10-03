@@ -31,7 +31,7 @@ export function world_instanced(game: Game) {
     for (let y = 0; y < map.length; y++) {
         for (let x = 0; x < map[0].length; x++) {
             game.Add({
-                ...get_tile_blueprint(game, true, x, y, [0, 1]),
+                ...get_tile_blueprint(game, !!map[y][x], x, y, [0, 1]),
                 Translation: [x * 8, 0, y * 8],
             });
         }
