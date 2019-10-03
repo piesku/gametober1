@@ -2,6 +2,7 @@ import {Animate} from "./com_animate";
 import {AudioSource} from "./com_audio_source";
 import {Camera} from "./com_camera";
 import {Collide} from "./com_collide";
+import {TowerControl} from "./com_control_tower";
 import {Lifespan} from "./com_lifespan";
 import {Light} from "./com_light";
 import {Mimic} from "./com_mimic";
@@ -24,6 +25,7 @@ export const enum Get {
     Animate,
     Named,
     PlayerControl,
+    TowerControl,
     Move,
     Collide,
     RigidBody,
@@ -44,6 +46,7 @@ export interface ComponentData {
     [Get.Named]: Array<Named>;
     [Get.Move]: Array<Move>;
     [Get.PlayerControl]: Array<PlayerControl>;
+    [Get.TowerControl]: Array<TowerControl>;
     [Get.Collide]: Array<Collide>;
     [Get.RigidBody]: Array<RigidBody>;
     [Get.Trigger]: Array<Trigger>;

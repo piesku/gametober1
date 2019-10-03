@@ -57,6 +57,6 @@ export interface Collision {
 export const enum RayTarget {
     /** Ignored by raycasting. */
     None = 1 << 0,
-    /** Considered by raycasting; doesn't do anything. */
-    Selectable = 1 << 1,
+    Placeable = 1 << 1,
+    Selectable = 1 << 2,
 }

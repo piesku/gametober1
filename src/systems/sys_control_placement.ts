@@ -1,4 +1,5 @@
 import {create_tower_1} from "../blueprints/blu_tower_1.js";
+import {RayTarget} from "../components/com_collide.js";
 import {Get} from "../components/com_index.js";
 import {Entity, Game} from "../game.js";
 import {get_translation} from "../math/mat4.js";
@@ -16,7 +17,7 @@ export function sys_control_placement(game: Game, delta: number) {
 function update(game: Game, entity: Entity, delta: number) {
     let select = game[Get.Select][entity];
 
-    if (game.InputEvent.mouse_0_down && select.Hit) {
+    if (game.InputEvent.mouse_0_down && select.Hit && select.Hit.Flags & RayTarget.Placeable) {
         let tile = select.Hit.EntityId;
         let transform = game[Get.Transform][tile];
         let [x, _, z] = get_translation([], transform.World);

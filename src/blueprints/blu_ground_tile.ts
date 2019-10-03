@@ -27,7 +27,7 @@ export function get_tile_blueprint(
     return {
         Rotation: from_euler([], 0, ~~(Math.random() * 4) * 90, 0),
         Translation: [0, 0, 0],
-        Using: [collide(false, [8, 1, 8], is_walkable ? RayTarget.None : RayTarget.Selectable)],
+        Using: [collide(false, [8, 1, 8], is_walkable ? RayTarget.None : RayTarget.Placeable)],
         Children: [tile],
     };
 }

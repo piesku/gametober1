@@ -4,6 +4,7 @@ import {Animate} from "./components/com_animate.js";
 import {AudioSource} from "./components/com_audio_source.js";
 import {Camera} from "./components/com_camera.js";
 import {Collide} from "./components/com_collide.js";
+import {TowerControl} from "./components/com_control_tower.js";
 import {ComponentData, Get} from "./components/com_index.js";
 import {Lifespan} from "./components/com_lifespan.js";
 import {Light} from "./components/com_light.js";
@@ -33,6 +34,7 @@ import {sys_camera} from "./systems/sys_camera.js";
 import {sys_collide} from "./systems/sys_collide.js";
 import {sys_control_placement} from "./systems/sys_control_placement.js";
 import {sys_control_player} from "./systems/sys_control_player.js";
+import {sys_control_tower} from "./systems/sys_control_tower.js";
 import {sys_debug} from "./systems/sys_debug.js";
 import {sys_framerate} from "./systems/sys_framerate.js";
 import {sys_lifespan} from "./systems/sys_lifespan.js";
@@ -79,6 +81,7 @@ export class Game implements ComponentData, GameState {
     public [Get.Named]: Array<Named> = [];
     public [Get.Move]: Array<Move> = [];
     public [Get.PlayerControl]: Array<PlayerControl> = [];
+    public [Get.TowerControl]: Array<TowerControl> = [];
     public [Get.Collide]: Array<Collide> = [];
     public [Get.RigidBody]: Array<RigidBody> = [];
     public [Get.Trigger]: Array<Trigger> = [];
@@ -167,6 +170,7 @@ export class Game implements ComponentData, GameState {
         sys_select(this, delta);
         sys_control_player(this, delta);
         sys_control_placement(this, delta);
+        sys_control_tower(this, delta);
 
         // Animation and movement.
         sys_mimic(this, delta);
