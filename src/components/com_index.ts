@@ -8,6 +8,7 @@ import {Light} from "./com_light";
 import {Mimic} from "./com_mimic";
 import {Move} from "./com_move";
 import {Named} from "./com_named";
+import {Navigable} from "./com_navigable.js";
 import {PlayerControl} from "./com_player_control";
 import {Render} from "./com_render";
 import {RigidBody} from "./com_rigid_body";
@@ -15,6 +16,7 @@ import {Select} from "./com_select";
 import {Shake} from "./com_shake";
 import {Transform} from "./com_transform";
 import {Trigger} from "./com_trigger";
+import {Walking} from "./com_walking.js";
 
 export const enum Get {
     Transform,
@@ -34,6 +36,8 @@ export const enum Get {
     Lifespan,
     Shake,
     Select,
+    Navigable,
+    Walking,
 }
 
 export interface ComponentData {
@@ -54,4 +58,6 @@ export interface ComponentData {
     [Get.Lifespan]: Array<Lifespan>;
     [Get.Shake]: Array<Shake>;
     [Get.Select]: Array<Select>;
+    [Get.Navigable]: Array<Navigable>;
+    [Get.Walking]: Array<Walking>;
 }

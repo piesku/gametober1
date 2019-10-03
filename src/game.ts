@@ -11,6 +11,7 @@ import {Light} from "./components/com_light.js";
 import {Mimic} from "./components/com_mimic.js";
 import {Move} from "./components/com_move.js";
 import {Named} from "./components/com_named.js";
+import {Navigable} from "./components/com_navigable.js";
 import {PlayerControl} from "./components/com_player_control.js";
 import {Render} from "./components/com_render.js";
 import {RigidBody} from "./components/com_rigid_body.js";
@@ -18,6 +19,7 @@ import {Select} from "./components/com_select.js";
 import {Shake} from "./components/com_shake.js";
 import {transform, Transform} from "./components/com_transform.js";
 import {Trigger} from "./components/com_trigger.js";
+import {Walking} from "./components/com_walking.js";
 import {mat_basic} from "./materials/mat_basic.js";
 import {Material} from "./materials/mat_common.js";
 import {mat_flat} from "./materials/mat_flat.js";
@@ -41,6 +43,7 @@ import {sys_lifespan} from "./systems/sys_lifespan.js";
 import {sys_light} from "./systems/sys_light.js";
 import {sys_mimic} from "./systems/sys_mimic.js";
 import {sys_move} from "./systems/sys_move.js";
+import {sys_navigate} from "./systems/sys_navigate.js";
 import {sys_performance} from "./systems/sys_performance.js";
 import {sys_physics} from "./systems/sys_physics.js";
 import {sys_render} from "./systems/sys_render.js";
@@ -89,6 +92,8 @@ export class Game implements ComponentData, GameState {
     public [Get.Lifespan]: Array<Lifespan> = [];
     public [Get.Shake]: Array<Shake> = [];
     public [Get.Select]: Array<Select> = [];
+    public [Get.Navigable]: Array<Navigable> = [];
+    public [Get.Walking]: Array<Walking> = [];
 
     public Canvas: HTMLCanvasElement;
     public GL: WebGL2RenderingContext;
@@ -174,6 +179,7 @@ export class Game implements ComponentData, GameState {
 
         // Animation and movement.
         sys_mimic(this, delta);
+        sys_navigate(this, delta);
         sys_shake(this, delta);
         sys_animate(this, delta);
         sys_move(this, delta);

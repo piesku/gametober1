@@ -1,4 +1,5 @@
 import {Mat4, Quat, Vec3} from "./index.js";
+import {normalize} from "./vec3.js";
 
 export function create() {
     let out = new Float32Array(16);
@@ -45,6 +46,13 @@ export function set(
     out[14] = m32;
     out[15] = m33;
     return out;
+}
+
+export function get_forward(out: Vec3, mat: Mat4) {
+    out[0] = mat[8];
+    out[1] = mat[9];
+    out[2] = mat[10];
+    return normalize(out, out);
 }
 
 export function invert(out: Mat4, a: Mat4) {
