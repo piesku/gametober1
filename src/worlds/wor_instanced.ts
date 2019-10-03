@@ -1,8 +1,12 @@
 import {create_camera} from "../blueprints/blu_camera.js";
 import {get_character_blueprint} from "../blueprints/blu_character.js";
 import {get_tile_blueprint} from "../blueprints/blu_ground_tile.js";
+import {Get} from "../components/com_index.js";
 import {light} from "../components/com_light.js";
-import {Game} from "../game.js";
+import {move} from "../components/com_move.js";
+import {find_navigable, Navigable} from "../components/com_navigable.js";
+import {walking} from "../components/com_walking.js";
+import {Entity, Game} from "../game.js";
 
 let map = [
     [0, 0, 0, 0, 0, 1, 1, 1, 1, 1],
@@ -60,14 +64,17 @@ export function world_instanced(game: Game) {
     });
 
     // Spawn character
-    game.Add({
-        ...get_character_blueprint(game),
+    let character = game.Add({
         Translation: [
             half_map_size - start_position.X * 8,
-            1.5,
+            0,
             half_map_size - start_position.Y * 8,
         ],
+        Using: [walking(start_position.X, start_position.Y), move(10.5, 0.2)],
+        Children: [get_character_blueprint(game)],
     });
+
+    game[Get.Walking][character].Route = get_route(game, character, end_position);
 }
 
 export function get_neighbors(game: Game, {X, Y}: {X: number; Y: number}) {
@@ -103,4 +110,33 @@ export function calculate_distance(game: Game, {X, Y}: {X: number; Y: number}) {
             }
         }
     }
+}
+
+export function get_route(game: Game, entity: Entity, destination: Navigable) {
+    let walking = game[Get.Walking][entity];
+    // calculate_distance(game, walking);
+
+    // Bail out early if the destination is not accessible (Infinity) or non-walkable (NaN).
+    // if (!(game.Grid[destination.X][destination.Y] < Infinity)) {
+    //     return false;
+    // }
+
+    let route: Array<{X: number; Y: number}> = [];
+    while (!(destination.X == walking.X && destination.Y == walking.Y)) {
+        route.push(destination);
+
+        let neighbors = get_neighbors(game, destination);
+
+        for (let i = 0; i < neighbors.length; i++) {
+            let neighbor_coords = neighbors[i];
+            if (
+                game.Grid[neighbor_coords.Y][neighbor_coords.X] <
+                game.Grid[destination.Y][destination.X]
+            ) {
+                destination = game[Get.Navigable][find_navigable(game, neighbor_coords)];
+            }
+        }
+    }
+
+    return route;
 }

@@ -5,6 +5,7 @@ import {Blueprint} from "./blu_common.js";
 
 export function get_character_blueprint(game: Game) {
     return <Blueprint>{
+        Translation: [0, 1.5, 0],
         Using: [collide(true, [1, 1, 1], RayTarget.None)],
         Children: [
             {
