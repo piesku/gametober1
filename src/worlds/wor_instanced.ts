@@ -1,16 +1,14 @@
-import {ani_scale} from "../animations/ani_scale.js";
 import {create_fly_camera} from "../blueprints/blu_fly_camera.js";
-import {Anim, animate} from "../components/com_animate.js";
 import {collide} from "../components/com_collide.js";
 import {light} from "../components/com_light.js";
 import {render_shaded} from "../components/com_render_shaded.js";
+import {render_vox} from "../components/com_render_vox.js";
 import {rigid_body} from "../components/com_rigid_body.js";
 import {Game} from "../game.js";
 import {Mat} from "../materials/mat_index.js";
 import {Cube} from "../shapes/Cube.js";
-import {Icosphere} from "../shapes/Icosphere.js";
 
-export function world_stage(game: Game) {
+export function world_instanced(game: Game) {
     game.World = [];
     game.Cameras = [];
     game.Lights = [];
@@ -40,14 +38,7 @@ export function world_stage(game: Game) {
     });
 
     game.Add({
-        Translation: [2, 1, 0],
-        Using: [
-            render_shaded(game.Materials[Mat.Phong], Icosphere, [1, 1, 0.3, 1]),
-            collide(true),
-            rigid_body(true),
-            animate({
-                [Anim.Idle]: ani_scale,
-            }),
-        ],
+        Translation: [0, 0, 0],
+        Using: [render_vox(Float32Array.from([0, 0, 0, 0, 0, 1, 0, 0]), [1, 0, 1, 1])],
     });
 }
