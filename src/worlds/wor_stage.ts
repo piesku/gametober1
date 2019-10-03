@@ -1,4 +1,4 @@
-import {create_fly_camera} from "../blueprints/blu_fly_camera.js";
+import {create_camera} from "../blueprints/blu_camera.js";
 import {audio_source} from "../components/com_audio_source.js";
 import {collide} from "../components/com_collide.js";
 import {light} from "../components/com_light.js";
@@ -17,8 +17,8 @@ export function world_stage(game: Game) {
 
     // Player-controlled camera.
     game.Add({
-        Translation: [0, 0, 5],
-        ...create_fly_camera(game),
+        Translation: [10, 10, 10],
+        ...create_camera(game),
     });
 
     // Ground.

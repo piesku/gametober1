@@ -1,5 +1,5 @@
 import {Entity, Game} from "../game.js";
-import {Quat, Vec3} from "../math/index.js";
+import {Vec3} from "../math/index.js";
 import {Get} from "./com_index.js";
 
 export interface Move {
@@ -9,8 +9,6 @@ export interface Move {
     readonly RotateSpeed: number;
     /** Movement directions in self space, normalized. */
     Directions: Array<Vec3>;
-    Yaws: Array<Quat>;
-    Pitches: Array<Quat>;
 }
 
 export function move(MoveSpeed: number = 3.5, RotateSpeed: number = 0.5) {
@@ -20,8 +18,6 @@ export function move(MoveSpeed: number = 3.5, RotateSpeed: number = 0.5) {
             MoveSpeed,
             RotateSpeed,
             Directions: [],
-            Yaws: [],
-            Pitches: [],
         };
     };
 }
