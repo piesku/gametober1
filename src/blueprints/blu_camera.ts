@@ -8,7 +8,7 @@ import {Blueprint} from "./blu_common";
 export function create_camera(game: Game) {
     return <Blueprint>{
         Rotation: from_euler([], 0, -135, 0),
-        Using: [player_control(true), move(10, 0.2)],
+        Using: [player_control(true), move(50, 0.2)],
         Children: [
             {
                 Rotation: from_euler([], -45, 180, 0),
