@@ -2,8 +2,9 @@ import {Anim, Animate} from "../components/com_animate.js";
 import {Get} from "../components/com_index.js";
 import {components_of_type} from "../components/com_transform.js";
 import {Entity, Game} from "../game.js";
-import {Vec3} from "../math/index.js";
+import {Quat, Vec3} from "../math/index.js";
 import {get_translation} from "../math/mat4.js";
+import {multiply} from "../math/quat.js";
 import {add, normalize, scale, transform_direction, transform_point} from "../math/vec3.js";
 
 const QUERY = (1 << Get.Transform) | (1 << Get.Move);
@@ -45,8 +46,20 @@ function update(game: Game, entity: Entity, delta: number) {
         transform.Dirty = true;
         move.Directions = [];
     }
+
+    if (move.Yaws.length) {
+        let yaw = move.Yaws.reduce(multiply_rotations);
+        // Yaw is applied relative to the world space.
+        multiply(transform.Rotation, yaw, transform.Rotation);
+        transform.Dirty = true;
+        move.Yaws = [];
+    }
 }
 
 function add_directions(acc: Vec3, cur: Vec3) {
     return add(acc, acc, cur);
+}
+
+function multiply_rotations(acc: Quat, cur: Quat) {
+    return multiply(acc, acc, cur);
 }

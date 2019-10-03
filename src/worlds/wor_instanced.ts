@@ -79,7 +79,7 @@ export function world_instanced(game: Game) {
             setTimeout(() => {
                 game[Get.Walking][character].Route = get_route(game, character, end_position);
             }, 200 * i);
-        }, 500 * i);
+        }, 1500 * i);
     }
 }
 
