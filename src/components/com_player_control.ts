@@ -3,13 +3,15 @@ import {Get} from "./com_index.js";
 
 export interface PlayerControl {
     readonly Move: boolean;
+    readonly Zoom: boolean;
 }
 
-export function player_control(Move: boolean) {
+export function player_control(Move: boolean, Zoom: boolean) {
     return (game: Game, entity: Entity) => {
         game.World[entity] |= 1 << Get.PlayerControl;
         game[Get.PlayerControl][entity] = <PlayerControl>{
             Move,
+            Zoom,
         };
     };
 }

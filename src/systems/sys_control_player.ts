@@ -33,4 +33,11 @@ function update(game: Game, entity: Entity, delta: number) {
             move.Directions.push([-1, 0, 0]);
         }
     }
+
+    if (control.Zoom) {
+        let move = game[Get.Move][entity];
+        if (game.InputEvent.wheel_y) {
+            move.Directions.push([0, Math.sign(game.InputEvent.wheel_y), 0]);
+        }
+    }
 }
