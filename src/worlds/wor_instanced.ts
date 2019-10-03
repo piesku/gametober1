@@ -43,8 +43,8 @@ export function world_instanced(game: Game) {
 
     // Light and audio source.
     game.Add({
-        Translation: [0, 24, 5],
-        Using: [light([1, 1, 1], 30)],
+        Translation: [1, 1, -1],
+        Using: [light([1, 1, 1], 0)],
     });
 
     // Spawn character
