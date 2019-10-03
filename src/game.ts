@@ -106,7 +106,6 @@ export class Game implements ComponentData, GameState {
         this.Canvas = document.querySelector("canvas")!;
         this.Canvas.width = window.innerWidth;
         this.Canvas.height = window.innerHeight;
-        this.Canvas.addEventListener("click", () => this.Canvas.requestPointerLock());
 
         window.addEventListener("keydown", evt => (this.InputState[evt.code] = 1));
         window.addEventListener("keyup", evt => (this.InputState[evt.code] = 0));
