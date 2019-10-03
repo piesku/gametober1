@@ -1,5 +1,5 @@
 import {GameState} from "./actions.js";
-import {Blueprint} from "./blueprints/blu_common.js";
+import {Blueprint, main_palette} from "./blueprints/blu_common.js";
 import {Animate} from "./components/com_animate.js";
 import {AudioSource} from "./components/com_audio_source.js";
 import {Camera} from "./components/com_camera.js";
@@ -95,7 +95,7 @@ export class Game implements ComponentData, GameState {
     public Materials: Array<Material> = [];
     public Cameras: Array<Camera> = [];
     public Lights: Array<Light> = [];
-    public Palette: Array<number> = [];
+    public Palette: Array<number> = main_palette;
     private RAF: number = 0;
 
     constructor() {
@@ -180,7 +180,7 @@ export class Game implements ComponentData, GameState {
         sys_performance(this, performance.now() - now, document.querySelector("#fixed"));
 
         // Debug.
-        true && sys_debug(this, delta);
+        false && sys_debug(this, delta);
 
         for (let name in this.InputEvent) {
             this.InputEvent[name] = 0;
