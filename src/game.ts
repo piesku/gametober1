@@ -94,6 +94,7 @@ export class Game implements ComponentData, GameState {
     public Materials: Array<Material> = [];
     public Cameras: Array<Camera> = [];
     public Lights: Array<Light> = [];
+    public Palette: Array<number> = [];
     private RAF: number = 0;
 
     constructor() {
