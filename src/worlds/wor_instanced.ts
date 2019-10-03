@@ -64,17 +64,23 @@ export function world_instanced(game: Game) {
     });
 
     // Spawn character
-    let character = game.Add({
-        Translation: [
-            half_map_size - start_position.X * 8,
-            0,
-            half_map_size - start_position.Y * 8,
-        ],
-        Using: [walking(start_position.X, start_position.Y), move(10.5, 0.2)],
-        Children: [get_character_blueprint(game)],
-    });
+    for (let i = 1; i < 16; i++) {
+        setTimeout(() => {
+            let character = game.Add({
+                Translation: [
+                    half_map_size - start_position.X * 8,
+                    0,
+                    half_map_size - start_position.Y * 8,
+                ],
+                Using: [walking(start_position.X, start_position.Y), move(10.5, 0.2)],
+                Children: [get_character_blueprint(game)],
+            });
 
-    game[Get.Walking][character].Route = get_route(game, character, end_position);
+            setTimeout(() => {
+                game[Get.Walking][character].Route = get_route(game, character, end_position);
+            }, 200 * i);
+        }, 500 * i);
+    }
 }
 
 export function get_neighbors(game: Game, {X, Y}: {X: number; Y: number}) {
@@ -114,12 +120,6 @@ export function calculate_distance(game: Game, {X, Y}: {X: number; Y: number}) {
 
 export function get_route(game: Game, entity: Entity, destination: Navigable) {
     let walking = game[Get.Walking][entity];
-    // calculate_distance(game, walking);
-
-    // Bail out early if the destination is not accessible (Infinity) or non-walkable (NaN).
-    // if (!(game.Grid[destination.X][destination.Y] < Infinity)) {
-    //     return false;
-    // }
 
     let route: Array<{X: number; Y: number}> = [];
     while (!(destination.X == walking.X && destination.Y == walking.Y)) {
