@@ -4,6 +4,7 @@ import {Animate} from "./components/com_animate.js";
 import {AudioSource} from "./components/com_audio_source.js";
 import {Camera} from "./components/com_camera.js";
 import {Collide} from "./components/com_collide.js";
+import {ProjectileControl} from "./components/com_control_projectile.js";
 import {TowerControl} from "./components/com_control_tower.js";
 import {ComponentData, Get} from "./components/com_index.js";
 import {Lifespan} from "./components/com_lifespan.js";
@@ -17,6 +18,7 @@ import {Render} from "./components/com_render.js";
 import {RigidBody} from "./components/com_rigid_body.js";
 import {Select} from "./components/com_select.js";
 import {Shake} from "./components/com_shake.js";
+import {Shoot} from "./components/com_shoot.js";
 import {transform, Transform} from "./components/com_transform.js";
 import {Trigger} from "./components/com_trigger.js";
 import {Walking} from "./components/com_walking.js";
@@ -36,6 +38,7 @@ import {sys_camera} from "./systems/sys_camera.js";
 import {sys_collide} from "./systems/sys_collide.js";
 import {sys_control_placement} from "./systems/sys_control_placement.js";
 import {sys_control_player} from "./systems/sys_control_player.js";
+import {sys_control_projectile} from "./systems/sys_control_projectile.js";
 import {sys_control_tower} from "./systems/sys_control_tower.js";
 import {sys_debug} from "./systems/sys_debug.js";
 import {sys_framerate} from "./systems/sys_framerate.js";
@@ -49,6 +52,7 @@ import {sys_physics} from "./systems/sys_physics.js";
 import {sys_render} from "./systems/sys_render.js";
 import {sys_select} from "./systems/sys_select.js";
 import {sys_shake} from "./systems/sys_shake.js";
+import {sys_shoot} from "./systems/sys_shoot.js";
 import {sys_transform} from "./systems/sys_transform.js";
 import {sys_trigger} from "./systems/sys_trigger.js";
 import {sys_ui} from "./systems/sys_ui.js";
@@ -85,12 +89,14 @@ export class Game implements ComponentData, GameState {
     public [Get.Move]: Array<Move> = [];
     public [Get.PlayerControl]: Array<PlayerControl> = [];
     public [Get.TowerControl]: Array<TowerControl> = [];
+    public [Get.ProjectileControl]: Array<ProjectileControl> = [];
     public [Get.Collide]: Array<Collide> = [];
     public [Get.RigidBody]: Array<RigidBody> = [];
     public [Get.Trigger]: Array<Trigger> = [];
     public [Get.Mimic]: Array<Mimic> = [];
     public [Get.Lifespan]: Array<Lifespan> = [];
     public [Get.Shake]: Array<Shake> = [];
+    public [Get.Shoot]: Array<Shoot> = [];
     public [Get.Select]: Array<Select> = [];
     public [Get.Navigable]: Array<Navigable> = [];
     public [Get.Walking]: Array<Walking> = [];
@@ -176,6 +182,7 @@ export class Game implements ComponentData, GameState {
         sys_control_player(this, delta);
         sys_control_placement(this, delta);
         sys_control_tower(this, delta);
+        sys_control_projectile(this, delta);
 
         // Animation and movement.
         sys_mimic(this, delta);
@@ -185,12 +192,15 @@ export class Game implements ComponentData, GameState {
         sys_move(this, delta);
         sys_transform(this, delta);
 
+        // Post-transform systems.
+        sys_shoot(this, delta);
+
         // Collisions and physics.
         sys_collide(this, delta);
         sys_physics(this, delta);
         sys_transform(this, delta);
 
-        // Post-transform systems.
+        // Post-collision systems.
         sys_trigger(this, delta);
 
         // Performance.

@@ -2,6 +2,7 @@ import {Animate} from "./com_animate";
 import {AudioSource} from "./com_audio_source";
 import {Camera} from "./com_camera";
 import {Collide} from "./com_collide";
+import {ProjectileControl} from "./com_control_projectile";
 import {TowerControl} from "./com_control_tower";
 import {Lifespan} from "./com_lifespan";
 import {Light} from "./com_light";
@@ -14,6 +15,7 @@ import {Render} from "./com_render";
 import {RigidBody} from "./com_rigid_body";
 import {Select} from "./com_select";
 import {Shake} from "./com_shake";
+import {Shoot} from "./com_shoot";
 import {Transform} from "./com_transform";
 import {Trigger} from "./com_trigger";
 import {Walking} from "./com_walking.js";
@@ -28,6 +30,7 @@ export const enum Get {
     Named,
     PlayerControl,
     TowerControl,
+    ProjectileControl,
     Move,
     Collide,
     RigidBody,
@@ -35,6 +38,7 @@ export const enum Get {
     Mimic,
     Lifespan,
     Shake,
+    Shoot,
     Select,
     Navigable,
     Walking,
@@ -51,12 +55,14 @@ export interface ComponentData {
     [Get.Move]: Array<Move>;
     [Get.PlayerControl]: Array<PlayerControl>;
     [Get.TowerControl]: Array<TowerControl>;
+    [Get.ProjectileControl]: Array<ProjectileControl>;
     [Get.Collide]: Array<Collide>;
     [Get.RigidBody]: Array<RigidBody>;
     [Get.Trigger]: Array<Trigger>;
     [Get.Mimic]: Array<Mimic>;
     [Get.Lifespan]: Array<Lifespan>;
     [Get.Shake]: Array<Shake>;
+    [Get.Shoot]: Array<Shoot>;
     [Get.Select]: Array<Select>;
     [Get.Navigable]: Array<Navigable>;
     [Get.Walking]: Array<Walking>;
