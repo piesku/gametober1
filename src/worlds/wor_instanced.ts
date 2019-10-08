@@ -8,35 +8,40 @@ import {find_navigable, Navigable} from "../components/com_navigable.js";
 import {walking} from "../components/com_walking.js";
 import {Entity, Game} from "../game.js";
 
-let map = [
-    [0, 0, 0, 0, 0, 1, 1, 1, 1, 1],
-    [1, 1, 1, 1, 0, 1, 0, 0, 0, 0],
-    [0, 0, 0, 1, 0, 1, 1, 1, 0, 0],
-    [0, 0, 0, 1, 0, 0, 0, 1, 0, 0],
-    [0, 0, 0, 1, 0, 1, 1, 1, 0, 0],
-    [0, 1, 1, 1, 0, 1, 0, 0, 0, 0],
-    [0, 1, 0, 0, 0, 1, 1, 1, 1, 0],
-    [0, 1, 0, 0, 0, 0, 0, 0, 1, 0],
-    [0, 1, 0, 1, 1, 1, 0, 1, 1, 0],
-    [0, 1, 1, 1, 0, 1, 1, 1, 0, 0],
-];
-
-let start_position = {
-    X: map[0].length - 1,
-    Y: 0,
-};
-
-let end_position = {
-    X: 0,
-    Y: 1,
-};
-
-let half_map_size = (8 * map.length) / 2;
 export function world_instanced(game: Game) {
     game.World = [];
     game.Cameras = [];
     game.Lights = [];
     game.GL.clearColor(1, 0.3, 0.3, 1);
+
+    let map_size = 15;
+    let half_map_size = (8 * map_size) / 2;
+
+    for (let y = 0; y < map_size; y++) {
+        game.Grid[y] = [];
+        for (let x = 0; x < map_size; x++) {
+            if (x == 0 || x == map_size - 1 || y == 0 || y == map_size - 1) {
+                game.Grid[y][x] = NaN;
+            } else {
+                game.Grid[y][x] = Infinity;
+            }
+        }
+    }
+
+    generate_maze(game, [0, map_size - 1], [0, map_size - 1], map_size, 0.2);
+
+    let start_position = {
+        X: 0,
+        Y: 1,
+    };
+
+    let end_position = {
+        X: map_size - 1,
+        Y: map_size - 2,
+    };
+
+    game.Grid[start_position.Y][start_position.X] = Infinity;
+    game.Grid[end_position.Y][end_position.X] = Infinity;
 
     // Player-controlled camera.
     game.Add({
@@ -44,12 +49,10 @@ export function world_instanced(game: Game) {
         ...create_camera(game),
     });
 
-    for (let y = 0; y < map.length; y++) {
-        game.Grid[y] = [];
-        for (let x = 0; x < map[0].length; x++) {
-            game.Grid[y][x] = !!map[y][x] ? Infinity : NaN;
+    for (let x = 0; x < map_size; x++) {
+        for (let y = 0; y < map_size; y++) {
             game.Add({
-                ...get_tile_blueprint(game, !!map[y][x], x, y),
+                ...get_tile_blueprint(game, !isNaN(game.Grid[y][x]), x, y),
                 Translation: [half_map_size - x * 8, 0, half_map_size - y * 8],
             });
         }
@@ -139,4 +142,76 @@ export function get_route(game: Game, entity: Entity, destination: Navigable) {
     }
 
     return route;
+}
+
+export function generate_maze(
+    game: Game,
+    [x1, x2]: number[],
+    [y1, y2]: number[],
+    size: number,
+    probablity: number
+) {
+    let width = x2 - x1;
+    let height = y2 - y1;
+    if (width >= height) {
+        // vertical bisection
+        if (x2 - x1 > 3) {
+            let bisection = Math.ceil((x1 + x2) / 2);
+            let max = y2 - 1;
+            let min = y1 + 1;
+            let randomPassage = ~~(Math.random() * (max - min + 1)) + min;
+            let first = false;
+            let second = false;
+            if (game.Grid[y2][bisection] == Infinity) {
+                randomPassage = max;
+                first = true;
+            }
+            if (game.Grid[y1][bisection] == Infinity) {
+                randomPassage = min;
+                second = true;
+            }
+            for (let i = y1 + 1; i < y2; i++) {
+                if (first && second) {
+                    if (i == max || i == min) {
+                        continue;
+                    }
+                } else if (i == randomPassage) {
+                    continue;
+                }
+                game.Grid[i][bisection] = Math.random() > probablity ? NaN : Infinity;
+            }
+            generate_maze(game, [x1, bisection], [y1, y2], size, probablity);
+            generate_maze(game, [bisection, x2], [y1, y2], size, probablity);
+        }
+    } else {
+        // horizontal bisection
+        if (y2 - y1 > 3) {
+            let bisection = Math.ceil((y1 + y2) / 2);
+            let max = x2 - 1;
+            let min = x1 + 1;
+            let randomPassage = ~~(Math.random() * (max - min + 1)) + min;
+            let first = false;
+            let second = false;
+            if (game.Grid[bisection][x2] == Infinity) {
+                randomPassage = max;
+                first = true;
+            }
+            if (game.Grid[bisection][x1] == Infinity) {
+                randomPassage = min;
+                second = true;
+            }
+            for (let i = x1 + 1; i < x2; i++) {
+                if (first && second) {
+                    if (i == max || i == min) {
+                        continue;
+                    }
+                } else if (i == randomPassage) {
+                    continue;
+                }
+                game.Grid[bisection][i] = Math.random() > probablity ? NaN : Infinity;
+            }
+            generate_maze(game, [x1, x2], [y1, bisection], size, probablity);
+            generate_maze(game, [x1, x2], [bisection, y2], size, probablity);
+        }
+    }
 }
