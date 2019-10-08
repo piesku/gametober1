@@ -9,7 +9,7 @@ export function get_character_blueprint(game: Game) {
         Using: [collide(true, [1, 1, 1], RayTarget.None)],
         Children: [
             {
-                Using: [render_vox(Float32Array.from([0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1]))],
+                Using: [render_vox(Float32Array.from([0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1]))],
             },
         ],
     };
