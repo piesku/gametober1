@@ -17,7 +17,7 @@ export function sys_control_placement(game: Game, delta: number) {
 function update(game: Game, entity: Entity, delta: number) {
     let select = game[Get.Select][entity];
 
-    if (game.InputEvent.mouse_0_down && select.Hit && select.Hit.Flags & RayTarget.Placeable) {
+    if (game.InputEvent.mouse_0_down && select.Hit && select.Hit.RayMask & RayTarget.Placeable) {
         let tile = select.Hit.EntityId;
         let transform = game[Get.Transform][tile];
         let [x, _, z] = get_translation([], transform.World);

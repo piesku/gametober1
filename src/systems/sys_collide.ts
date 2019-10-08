@@ -53,16 +53,21 @@ export function sys_collide(game: Game, delta: number) {
 function check_collisions(collider: Collide, colliders: Collide[], length: number) {
     for (let i = 0; i < length; i++) {
         let other = colliders[i];
-        if (intersect_aabb(collider, other)) {
+        let can_collide = collider.OwnMask & other.OtherMask || collider.OtherMask & other.OwnMask;
+        if (can_collide && intersect_aabb(collider, other)) {
             let hit = penetrate_aabb(collider, other);
-            collider.Collisions.push({
-                Other: other,
-                Hit: hit,
-            });
-            other.Collisions.push({
-                Other: collider,
-                Hit: negate([], hit),
-            });
+            if (collider.OtherMask & other.OwnMask) {
+                collider.Collisions.push({
+                    Other: other,
+                    Hit: hit,
+                });
+            }
+            if (other.OtherMask & collider.OwnMask) {
+                other.Collisions.push({
+                    Other: collider,
+                    Hit: negate([], hit),
+                });
+            }
         }
     }
 }

@@ -1,7 +1,8 @@
 import {Get} from "../components/com_index.js";
 import {Entity, Game} from "../game.js";
 
-const QUERY = (1 << Get.Transform) | (1 << Get.ProjectileControl) | (1 << Get.Move);
+const QUERY =
+    (1 << Get.Transform) | (1 << Get.ProjectileControl) | (1 << Get.Move) | (1 << Get.Collide);
 
 export function sys_control_projectile(game: Game, delta: number) {
     for (let i = 0; i < game.World.length; i++) {
@@ -17,6 +18,6 @@ function update(game: Game, entity: Entity) {
 
     let collide = game[Get.Collide][entity];
     if (collide.Collisions.length > 0) {
-        console.log("ouch");
+        game.Destroy(entity);
     }
 }

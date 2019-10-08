@@ -22,13 +22,17 @@ export interface Collide {
     Half: [number, number, number];
     /** Collisions detected with this collider during this tick. */
     Collisions: Array<Collision>;
-    Flags: RayTarget;
+    RayMask: RayTarget;
+    OwnMask: CollisionLayer;
+    OtherMask: CollisionLayer;
 }
 
 export function collide(
     Dynamic: boolean = true,
     Size: [number, number, number] = [1, 1, 1],
-    Flags = RayTarget.None
+    RayMask = RayTarget.None,
+    OwnMask = CollisionLayer.Default,
+    OtherMask = CollisionLayer.Default
 ) {
     return (game: Game, EntityId: Entity) => {
         game.World[EntityId] |= 1 << Get.Collide;
@@ -42,7 +46,9 @@ export function collide(
             Center: [0, 0, 0],
             Half: [0, 0, 0],
             Collisions: [],
-            Flags,
+            RayMask,
+            OwnMask,
+            OtherMask,
         };
     };
 }
@@ -52,6 +58,12 @@ export interface Collision {
     Other: Collide;
     /** The direction and magnitude of the hit from this collider's POV. */
     Hit: Vec3;
+}
+
+export const enum CollisionLayer {
+    Default = 1 << 0,
+    Mob = 1 << 1,
+    Projectile = 1 << 2,
 }
 
 export const enum RayTarget {
