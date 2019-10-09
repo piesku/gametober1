@@ -6,6 +6,7 @@ import {Camera} from "./components/com_camera.js";
 import {Collide} from "./components/com_collide.js";
 import {ProjectileControl} from "./components/com_control_projectile.js";
 import {TowerControl} from "./components/com_control_tower.js";
+import {Health} from "./components/com_health.js";
 import {ComponentData, Get} from "./components/com_index.js";
 import {Lifespan} from "./components/com_lifespan.js";
 import {Light} from "./components/com_light.js";
@@ -42,6 +43,7 @@ import {sys_control_projectile} from "./systems/sys_control_projectile.js";
 import {sys_control_tower} from "./systems/sys_control_tower.js";
 import {sys_debug} from "./systems/sys_debug.js";
 import {sys_framerate} from "./systems/sys_framerate.js";
+import {sys_health} from "./systems/sys_health.js";
 import {sys_lifespan} from "./systems/sys_lifespan.js";
 import {sys_light} from "./systems/sys_light.js";
 import {sys_mimic} from "./systems/sys_mimic.js";
@@ -100,6 +102,7 @@ export class Game implements ComponentData, GameState {
     public [Get.Select]: Array<Select> = [];
     public [Get.Navigable]: Array<Navigable> = [];
     public [Get.Walking]: Array<Walking> = [];
+    public [Get.Health]: Array<Health> = [];
 
     public Canvas: HTMLCanvasElement;
     public GL: WebGL2RenderingContext;
@@ -202,6 +205,7 @@ export class Game implements ComponentData, GameState {
 
         // Post-collision systems.
         sys_trigger(this, delta);
+        sys_health(this, delta);
 
         // Performance.
         sys_performance(this, performance.now() - now, document.querySelector("#fixed"));

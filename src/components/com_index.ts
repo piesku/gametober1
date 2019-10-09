@@ -4,6 +4,7 @@ import {Camera} from "./com_camera";
 import {Collide} from "./com_collide";
 import {ProjectileControl} from "./com_control_projectile";
 import {TowerControl} from "./com_control_tower";
+import {Health} from "./com_health";
 import {Lifespan} from "./com_lifespan";
 import {Light} from "./com_light";
 import {Mimic} from "./com_mimic";
@@ -42,6 +43,7 @@ export const enum Get {
     Select,
     Navigable,
     Walking,
+    Health,
 }
 
 export interface ComponentData {
@@ -66,4 +68,5 @@ export interface ComponentData {
     [Get.Select]: Array<Select>;
     [Get.Navigable]: Array<Navigable>;
     [Get.Walking]: Array<Walking>;
+    [Get.Health]: Array<Health>;
 }

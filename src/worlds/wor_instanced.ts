@@ -3,9 +3,7 @@ import {get_character_blueprint} from "../blueprints/blu_character.js";
 import {get_tile_blueprint} from "../blueprints/blu_ground_tile.js";
 import {Get} from "../components/com_index.js";
 import {light} from "../components/com_light.js";
-import {move} from "../components/com_move.js";
 import {find_navigable, Navigable} from "../components/com_navigable.js";
-import {walking} from "../components/com_walking.js";
 import {Entity, Game} from "../game.js";
 
 let map = [
@@ -67,13 +65,12 @@ export function world_instanced(game: Game) {
     for (let i = 1; i < 16; i++) {
         setTimeout(() => {
             let character = game.Add({
+                ...get_character_blueprint(game, start_position),
                 Translation: [
                     half_map_size - start_position.X * 8,
-                    0,
+                    1.5,
                     half_map_size - start_position.Y * 8,
                 ],
-                Using: [walking(start_position.X, start_position.Y), move(10.5, 0.2)],
-                Children: [get_character_blueprint(game)],
             });
 
             setTimeout(() => {

@@ -19,5 +19,12 @@ function update(game: Game, entity: Entity) {
     let collide = game[Get.Collide][entity];
     if (collide.Collisions.length > 0) {
         game.Destroy(entity);
+        let control = game[Get.ProjectileControl][entity];
+        for (let collision of collide.Collisions) {
+            let mob_id = collision.Other.EntityId;
+            if (game.World[mob_id] & (1 << Get.Health)) {
+                game[Get.Health][mob_id].Damages.push(control.Damage);
+            }
+        }
     }
 }
