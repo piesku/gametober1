@@ -1,8 +1,7 @@
-import {Get} from "../components/com_index.js";
+import {Get, Has} from "../components/com_index.js";
 import {Entity, Game} from "../game.js";
 
-const QUERY =
-    (1 << Get.Transform) | (1 << Get.ProjectileControl) | (1 << Get.Move) | (1 << Get.Collide);
+const QUERY = Has.Transform | Has.ProjectileControl | Has.Move | Has.Collide;
 
 export function sys_control_projectile(game: Game, delta: number) {
     for (let i = 0; i < game.World.length; i++) {
@@ -22,7 +21,7 @@ function update(game: Game, entity: Entity) {
         let control = game[Get.ProjectileControl][entity];
         for (let collision of collide.Collisions) {
             let mob_id = collision.Other.EntityId;
-            if (game.World[mob_id] & (1 << Get.Health)) {
+            if (game.World[mob_id] & Has.Health) {
                 game[Get.Health][mob_id].Damages.push(control.Damage);
             }
         }

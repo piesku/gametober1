@@ -1,10 +1,10 @@
 import {create_tower_1} from "../blueprints/blu_tower_1.js";
 import {RayTarget} from "../components/com_collide.js";
-import {Get} from "../components/com_index.js";
+import {Get, Has} from "../components/com_index.js";
 import {Entity, Game} from "../game.js";
 import {get_translation} from "../math/mat4.js";
 
-const QUERY = 1 << Get.Select;
+const QUERY = Has.Select;
 
 export function sys_control_placement(game: Game, delta: number) {
     for (let i = 0; i < game.World.length; i++) {

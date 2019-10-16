@@ -7,7 +7,7 @@ import {Collide} from "./components/com_collide.js";
 import {ProjectileControl} from "./components/com_control_projectile.js";
 import {TowerControl} from "./components/com_control_tower.js";
 import {Health} from "./components/com_health.js";
-import {ComponentData, Get} from "./components/com_index.js";
+import {ComponentData, Get, Has} from "./components/com_index.js";
 import {Lifespan} from "./components/com_lifespan.js";
 import {Light} from "./components/com_light.js";
 import {Mimic} from "./components/com_mimic.js";
@@ -284,7 +284,7 @@ export class Game implements ComponentData, GameState {
 
     Destroy(entity: Entity) {
         let mask = this.World[entity];
-        if (mask & (1 << Get.Transform)) {
+        if (mask & Has.Transform) {
             for (let child of this[Get.Transform][entity].Children) {
                 this.Destroy(child.EntityId);
             }

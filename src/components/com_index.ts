@@ -70,3 +70,28 @@ export interface ComponentData {
     [Get.Walking]: Array<Walking>;
     [Get.Health]: Array<Health>;
 }
+
+export const enum Has {
+    Transform = 1 << Get.Transform,
+    Render = 1 << Get.Render,
+    Camera = 1 << Get.Camera,
+    Light = 1 << Get.Light,
+    AudioSource = 1 << Get.AudioSource,
+    Animate = 1 << Get.Animate,
+    Named = 1 << Get.Named,
+    PlayerControl = 1 << Get.PlayerControl,
+    TowerControl = 1 << Get.TowerControl,
+    ProjectileControl = 1 << Get.ProjectileControl,
+    Move = 1 << Get.Move,
+    Collide = 1 << Get.Collide,
+    RigidBody = 1 << Get.RigidBody,
+    Trigger = 1 << Get.Trigger,
+    Mimic = 1 << Get.Mimic,
+    Lifespan = 1 << Get.Lifespan,
+    Shake = 1 << Get.Shake,
+    Shoot = 1 << Get.Shoot,
+    Select = 1 << Get.Select,
+    Navigable = 1 << Get.Navigable,
+    Walking = 1 << Get.Walking,
+    Health = 1 << Get.Health,
+}

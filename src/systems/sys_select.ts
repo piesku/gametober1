@@ -1,12 +1,12 @@
 import {Collide, RayTarget} from "../components/com_collide.js";
-import {Get} from "../components/com_index.js";
+import {Get, Has} from "../components/com_index.js";
 import {Entity, Game} from "../game.js";
 import {get_translation} from "../math/mat4.js";
 import {raycast_aabb} from "../math/raycast.js";
 import {normalize, subtract, transform_point} from "../math/vec3.js";
 
-const QUERY = (1 << Get.Transform) | (1 << Get.Camera) | (1 << Get.Select);
-const TARGET = (1 << Get.Transform) | (1 << Get.Collide);
+const QUERY = Has.Transform | Has.Camera | Has.Select;
+const TARGET = Has.Transform | Has.Collide;
 
 export function sys_select(game: Game, delta: number) {
     let colliders: Array<Collide> = [];

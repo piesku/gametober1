@@ -1,7 +1,7 @@
-import {Get} from "../components/com_index.js";
+import {Get, Has} from "../components/com_index.js";
 import {Entity, Game} from "../game.js";
 
-const QUERY = (1 << Get.Move) | (1 << Get.PlayerControl);
+const QUERY = Has.Move | Has.PlayerControl;
 
 export function sys_control_player(game: Game, delta: number) {
     for (let i = 0; i < game.World.length; i++) {

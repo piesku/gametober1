@@ -1,5 +1,5 @@
 import {Entity, Game} from "../game.js";
-import {Get} from "./com_index.js";
+import {Get, Has} from "./com_index.js";
 import {components_of_type, Transform} from "./com_transform.js";
 
 export interface Named {
@@ -9,7 +9,7 @@ export interface Named {
 
 export function named(Name: string) {
     return (game: Game, EntityId: Entity) => {
-        game.World[EntityId] |= 1 << Get.Named;
+        game.World[EntityId] |= Has.Named;
         game[Get.Named][EntityId] = <Named>{Name, EntityId};
     };
 }

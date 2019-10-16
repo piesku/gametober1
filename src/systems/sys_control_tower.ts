@@ -1,4 +1,4 @@
-import {Get} from "../components/com_index.js";
+import {Get, Has} from "../components/com_index.js";
 import {find_child} from "../components/com_named.js";
 import {Entity, Game} from "../game.js";
 import {Vec3} from "../math/index.js";
@@ -6,12 +6,7 @@ import {get_translation} from "../math/mat4.js";
 import {rotation_to} from "../math/quat.js";
 import {normalize, transform_point} from "../math/vec3.js";
 
-const QUERY =
-    (1 << Get.Transform) |
-    (1 << Get.TowerControl) |
-    (1 << Get.Collide) |
-    (1 << Get.Move) |
-    (1 << Get.Shoot);
+const QUERY = Has.Transform | Has.TowerControl | Has.Collide | Has.Move | Has.Shoot;
 
 export function sys_control_tower(game: Game, delta: number) {
     for (let i = 0; i < game.World.length; i++) {

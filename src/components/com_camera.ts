@@ -1,7 +1,7 @@
 import {Entity, Game} from "../game.js";
 import {Mat4} from "../math/index.js";
 import {create, invert, perspective} from "../math/mat4.js";
-import {Get} from "./com_index.js";
+import {Get, Has} from "./com_index.js";
 
 export interface Camera {
     EntityId: Entity;
@@ -14,7 +14,7 @@ export interface Camera {
 export function camera(aspect: number, fovy: number, near: number, far: number) {
     return (game: Game, EntityId: Entity) => {
         let Projection = perspective(create(), fovy, aspect, near, far);
-        game.World[EntityId] |= 1 << Get.Camera;
+        game.World[EntityId] |= Has.Camera;
         game[Get.Camera][EntityId] = <Camera>{
             EntityId,
             Projection,
